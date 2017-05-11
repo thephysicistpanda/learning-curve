@@ -1,0 +1,75 @@
+#!/usr/bin/python
+import math
+import pandas as pd
+import tkinter as tk
+from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import asksaveasfilename
+import subprocess
+
+#ask user for input file
+print('Please select the input file')
+(tk.Tk()).withdraw()
+filename = askopenfilename()
+
+#read the csv file
+with open(filename, encoding='UTF-16') as f:
+	data = pd.read_csv(f, sep=',', skiprows=11)
+
+#transfer data to lists
+sr_No = data['Sr. No.'].tolist()
+
+x_act = data['XCenter Act.'].tolist()
+x_nom = data['XCenter Nom.'].tolist()
+x_devi = data['XCenter Devi.'].tolist()
+
+y_act = data['YCenter Act.'].tolist()
+y_nom = data['YCenter Nom.'].tolist()
+y_devi = data['YCenter Devi.'].tolist()
+
+angle_act = data['Angle Act.'].tolist()
+angle_nom = data['Angle Nom.'].tolist()
+angle_devi = data['Angle Devi.'].tolist()
+
+#convert angles to degrees
+for i in sr_No:
+	angle_act[i-1] = math.degrees(angle_act[i-1])
+	angle_nom[i-1] = math.degrees(angle_nom[i-1])
+	angle_devi[i-1] = math.degrees(angle_devi[i-1])
+
+#ask user for output file
+#print('\nPlease select where to save the output file\n')
+#filename = asksaveasfilename()
+
+#output to a csv file
+output = open('output.csv', 'w')
+output.write("Sr. No.,XCenter Act.,XCenter Nom.,XCenter Devi.,YCenter Act.,YCenter Nom.,YCenter Devi.,Angle Act.,Angle Nom.,Angle Devi.\n")
+for i in sr_No:
+	output.write(str(sr_No[i-1]))
+	output.write(",")
+	output.write(str(x_act[i-1]))
+	output.write(",")
+	output.write(str(x_nom[i-1]))
+	output.write(",")
+	output.write(str(x_devi[i-1]))
+	output.write(",")
+	output.write(str(y_act[i-1]))
+	output.write(",")
+	output.write(str(y_nom[i-1]))
+	output.write(",")
+	output.write(str(y_devi[i-1]))
+	output.write(",")
+	output.write(str(angle_act[i-1]))
+	output.write(",")
+	output.write(str(angle_nom[i-1]))
+	output.write(",")
+	output.write(str(angle_devi[i-1]))
+	output.write("\n")
+#subprocess.Popen('graph.py')
+
+
+
+
+
+
+
+
